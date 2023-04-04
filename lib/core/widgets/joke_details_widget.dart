@@ -6,9 +6,11 @@ class JokeDetailsWidget extends StatelessWidget {
   const JokeDetailsWidget({
     super.key,
     required this.joke,
+    this.onFavoriteToggle,
   });
 
   final JokeEntity joke;
+  final void Function()? onFavoriteToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,10 @@ class JokeDetailsWidget extends StatelessWidget {
                           ),
                         ),
                         const Expanded(child: SizedBox()),
-                        FavoriteIconWidget(joke),
+                        FavoriteIconWidget(
+                          joke,
+                          onToggle: onFavoriteToggle,
+                        ),
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {

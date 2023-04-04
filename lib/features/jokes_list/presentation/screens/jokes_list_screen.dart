@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joke_me/core/components/header.dart';
 import 'package:joke_me/core/http/client.dart';
+import 'package:joke_me/features/favorite_jokes/presentation/screens/favorite_jokes_screen.dart';
 import 'package:joke_me/features/jokes_list/data/data_source/remote/jokes_data_source.dart';
 import 'package:joke_me/features/jokes_list/data/repositories/jokes_repository_impl.dart';
 import 'package:joke_me/core/entities/joke_entity.dart';
 import 'package:joke_me/features/jokes_list/domain/usecases/ger_random_ten__jokes_usecase.dart';
 import 'package:joke_me/features/jokes_list/presentation/bloc/get_ten_random_jokes/get_ten_random_jokes_bloc.dart';
-import 'package:joke_me/features/jokes_list/presentation/components/joke_teaser_tile.dart';
+import 'package:joke_me/core/components/joke_teaser_tile.dart';
 import 'package:joke_me/core/widgets/joke_details_widget.dart';
 import 'package:joke_me/injector.dart';
 
@@ -34,6 +35,20 @@ class JokesListScreen extends StatelessWidget {
               child: const JokesListView(),
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.grey.shade900,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const FavoriteJokesScreen(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.favorite,
+          ),
         ),
       ),
     );

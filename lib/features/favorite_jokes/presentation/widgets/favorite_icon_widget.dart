@@ -16,9 +16,11 @@ class FavoriteIconWidget extends StatelessWidget {
   const FavoriteIconWidget(
     this.joke, {
     super.key,
+    this.onToggle,
   });
 
   final JokeEntity joke;
+  final void Function()? onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,10 @@ class FavoriteIconWidget extends StatelessWidget {
           ),
         ),
       ],
-      child: IconWidget(joke),
+      child: IconWidget(
+        joke,
+        onToggle: onToggle,
+      ),
     );
   }
 }
@@ -67,9 +72,11 @@ class IconWidget extends StatelessWidget {
   const IconWidget(
     this.joke, {
     super.key,
+    required this.onToggle,
   });
 
   final JokeEntity joke;
+  final void Function()? onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +88,7 @@ class IconWidget extends StatelessWidget {
               BlocProvider.of<CheckFavoriteBloc>(context).add(
                 CheckEvent(joke.id),
               );
+              onToggle?.call();
             }
           },
           listenWhen: (previous, current) => current is AddFavoriteLoadedState,
@@ -91,6 +99,7 @@ class IconWidget extends StatelessWidget {
               BlocProvider.of<CheckFavoriteBloc>(context).add(
                 CheckEvent(joke.id),
               );
+              onToggle?.call();
             }
           },
           listenWhen: (previous, current) =>
