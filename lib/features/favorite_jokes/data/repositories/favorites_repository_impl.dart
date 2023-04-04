@@ -24,14 +24,36 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> checkFavorite(int id) {
-    // TODO: implement checkFavorite
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> checkFavorite(int id) async {
+    try {
+      bool isPresent = await localDataSource.checkFavorite(id);
+      return Right(isPresent);
+    } catch (e) {
+      return Left(UnknownFavoriteFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, List<JokeEntity>>> getAllFavorites() {
-    // TODO: implement getAllFavorites
-    throw UnimplementedError();
+  Future<Either<Failure, List<JokeEntity>>> getAllFavorites() async {
+    try {
+      List jokes = await localDataSource.getFavorites();
+      return Right(
+        jokes.map((joke) => JokeModel.fromJSON(joke)).toList(),
+      );
+    } catch (e) {
+      return Left(UnknownFavoriteFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteFavorite(JokeEntity joke) async {
+    try {
+      await localDataSource.deleteFavorite(
+        JokeModel.fromEntity(joke),
+      );
+      return const Right(null);
+    } catch (e) {
+      return Left(UnknownFavoriteFailure());
+    }
   }
 }

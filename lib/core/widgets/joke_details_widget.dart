@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:joke_me/core/entities/joke_entity.dart';
+import 'package:joke_me/features/favorite_jokes/presentation/widgets/favorite_icon_widget.dart';
 
 class JokeDetailsWidget extends StatelessWidget {
   const JokeDetailsWidget({
@@ -38,21 +39,36 @@ class JokeDetailsWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.shade800,
-                      ),
-                      child: Text(
-                        joke.type.toUpperCase(),
-                        style: const TextStyle(
-                          color: Colors.white,
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 3,
+                            horizontal: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey.shade800,
+                          ),
+                          child: Text(
+                            joke.type.toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
+                        const Expanded(child: SizedBox()),
+                        FavoriteIconWidget(joke),
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Icon(
+                            Icons.cancel_outlined,
+                          ),
+                        )
+                      ],
                     ),
                     const SizedBox(height: 5),
                     Text(

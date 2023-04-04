@@ -8,7 +8,7 @@ import 'package:joke_me/core/entities/joke_entity.dart';
 import 'package:joke_me/features/jokes_list/domain/usecases/ger_random_ten__jokes_usecase.dart';
 import 'package:joke_me/features/jokes_list/presentation/bloc/get_ten_random_jokes/get_ten_random_jokes_bloc.dart';
 import 'package:joke_me/features/jokes_list/presentation/components/joke_teaser_tile.dart';
-import 'package:joke_me/features/jokes_list/presentation/widgets/joke_details_widget.dart';
+import 'package:joke_me/core/widgets/joke_details_widget.dart';
 import 'package:joke_me/injector.dart';
 
 class JokesListScreen extends StatelessWidget {
