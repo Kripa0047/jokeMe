@@ -103,13 +103,29 @@ class JokesListView extends StatelessWidget {
               ),
             );
           } else if (state is GetTenRandomJokesFailedState) {
-            return const Center(
-              child: Text(
-                "OPPs..",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "OPPs.. ッ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  IconButton(
+                    onPressed: () {
+                      BlocProvider.of<GetTenRandomJokesBloc>(context).add(
+                        GetJokesEvent(),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.refresh_rounded,
+                    ),
+                  )
+                ],
               ),
             );
           }
