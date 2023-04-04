@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joke_me/core/components/header.dart';
+import 'package:joke_me/core/components/loader.dart';
 import 'package:joke_me/core/http/client.dart';
 import 'package:joke_me/features/favorite_jokes/presentation/screens/favorite_jokes_screen.dart';
 import 'package:joke_me/features/jokes_list/data/data_source/remote/jokes_data_source.dart';
@@ -76,6 +77,7 @@ class JokesListView extends StatelessWidget {
         builder: (context, state) {
           if (state is GetTenRandomJokesLoadedState) {
             return RefreshIndicator(
+              color: Colors.grey.shade900,
               onRefresh: () async {
                 BlocProvider.of<GetTenRandomJokesBloc>(context).add(
                   GetJokesEvent(),
@@ -114,7 +116,7 @@ class JokesListView extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   IconButton(
                     onPressed: () {
                       BlocProvider.of<GetTenRandomJokesBloc>(context).add(
@@ -130,7 +132,7 @@ class JokesListView extends StatelessWidget {
             );
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: Loader(),
           );
         },
       ),

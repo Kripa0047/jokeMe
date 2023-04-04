@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joke_me/core/components/header.dart';
 import 'package:joke_me/core/components/joke_teaser_tile.dart';
+import 'package:joke_me/core/components/loader.dart';
 import 'package:joke_me/core/entities/joke_entity.dart';
 import 'package:joke_me/core/widgets/joke_details_widget.dart';
 import 'package:joke_me/features/favorite_jokes/data/data_source/local/local_data_source.dart';
@@ -65,6 +66,32 @@ class ListWidget extends StatelessWidget {
     );
   }
 
+  Widget _failedWidget(BuildContext context) => Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              "Jokes on you... ッ",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 10),
+            IconButton(
+              onPressed: () {
+                BlocProvider.of<GetFavoritesBloc>(context).add(
+                  GetFavoriteJokesEvent(),
+                );
+              },
+              icon: const Icon(
+                Icons.refresh_rounded,
+              ),
+            )
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -72,16 +99,10 @@ class ListWidget extends StatelessWidget {
         builder: (context, state) {
           if (state is GetFavoritesLoadedState) {
             if (state.jokes.isEmpty) {
-              return const Center(
-                child: Text(
-                  "Jokes on you ッ",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              );
+              return _failedWidget(context);
             } else {
               return RefreshIndicator(
+                color: Colors.grey.shade900,
                 onRefresh: () async {
                   BlocProvider.of<GetFavoritesBloc>(context).add(
                     GetFavoriteJokesEvent(),
@@ -110,12 +131,10 @@ class ListWidget extends StatelessWidget {
               );
             }
           } else if (state is GetFavoritesFailureState) {
-            return const Center(
-              child: Text("Jokes on you ッ"),
-            );
+            return _failedWidget(context);
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: Loader(),
           );
         },
       ),
